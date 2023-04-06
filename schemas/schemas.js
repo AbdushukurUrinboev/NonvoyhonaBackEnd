@@ -125,7 +125,7 @@ const daromatSchema = new Schema({
 
 const productsSchema = new Schema({
     productName: String,
-    birQopUchunTulov: Number, ////// kurib chiqishim kerak
+    birQopUchunTulov: Number, 
     breadPerBag: Number, /// bir qopdan chiqadigan non soni
     productPrice: Number,
     productImage: String,
