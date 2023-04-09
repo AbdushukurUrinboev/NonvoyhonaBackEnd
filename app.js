@@ -148,7 +148,10 @@ app.use(cors());
 
 main().catch(err => console.log(err));
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/NonvoyhonaDB');
+    // const prodMode = `mongodb://gen_user:7nhhw7kbq9@188.225.73.40:27017/default_db?authSource=admin&directConnection=true`;
+    // const devMode = 'mongodb://127.0.0.1:27017/NonvoyhonaDB';
+    const dbModes = require('./db.json');
+    await mongoose.connect(dbModes.prodMode);
 }
 
 mongoose.connection.on("open", function (ref) {
