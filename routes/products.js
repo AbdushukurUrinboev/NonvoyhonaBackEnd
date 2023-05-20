@@ -25,6 +25,9 @@ exports.addGood = (req, res) => {
     req.body.others = req.body.others.map((item) => {
         return JSON.parse(item);
     })
+    req.body.staffShare = req.body.staffShare.map((item) => {
+        return JSON.parse(item);
+    })
     const newProduct = new Products({ ...(req.body), productImage: req.file ? req.file.path : "none" });
     newProduct.save(function (err, doc) {
         if (err) {
