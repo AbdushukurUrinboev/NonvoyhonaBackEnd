@@ -135,6 +135,7 @@ const productsSchema = new Schema({
     productPrice: Number,
     productImage: String,
     allExpensesPerBag: Number,
+    productOverallExpense: Number,
     staffShare: { type: [staffShareSchema], default: [] },
     requiredItems: { type: [productsRequiredSchema], default: [] },
     others: {
