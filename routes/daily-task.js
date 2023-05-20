@@ -32,9 +32,16 @@ exports.addTask = (req, res) => {
         let output = await addSail(breadsArr);
         // add to staff history
         let { group, smena, bonusTulov, tulov, xodim, jamiTulov, ...rest } = req.body;
-        const perStaffIncome = jamiTulov / xodim.length;
         for (let i = 0; i < xodim.length; i++) {
-            await updateStaffHistory(xodim[i], rest, perStaffIncome, modifiedDate);
+            let foundRole = currProduct.staffShare.find(obj => obj.type === xodim[i].type);
+            const perStaffShare = xodim[i].joined ? foundRole.share / xodim[i].staff.length : foundRole.share;
+            if (xodim[i].staff.length > 1) {
+                for (let j = 0; j < xodim[i].staff.length; j++) {
+                    await updateStaffHistory(xodim[i].staff[j], rest, perStaffShare, modifiedDate);
+                }
+            } else {
+                await updateStaffHistory(xodim[i].staff[0], rest, foundRole.share, modifiedDate);
+            }
         }
 
         // add to expenses section
@@ -44,3 +51,11 @@ exports.addTask = (req, res) => {
     });
 
 };
+
+[
+    {
+        type: "yopuvchi",
+        staff: [],
+        joined: false
+    }
+]

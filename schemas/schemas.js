@@ -123,13 +123,19 @@ const daromatSchema = new Schema({
     timeStamp: Number
 });
 
+const staffShareSchema = new Schema({
+    type: String,
+    share: Number
+})
+
 const productsSchema = new Schema({
     productName: String,
-    birQopUchunTulov: Number, 
+    birQopUchunTulov: Number,
     breadPerBag: Number, /// bir qopdan chiqadigan non soni
     productPrice: Number,
     productImage: String,
     allExpensesPerBag: Number,
+    staffShare: { type: [staffShareSchema], default: [] },
     requiredItems: { type: [productsRequiredSchema], default: [] },
     others: {
         type: [productExpensesSchema], default: []
