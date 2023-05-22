@@ -175,8 +175,8 @@ const xamkorSchema = new Schema({
     category: String,
     address: String,
     workPlace: String,
-    position: String
-
+    position: String,
+    paymentRequired: Number
 });
 const onSailSchema = new Schema({
     breadName: String,
@@ -192,7 +192,7 @@ const plansSchema = new Schema({
 });
 
 const access = new Schema({
-    user: { type: String, unique: true, required: true }, ,
+    user: { type: String, unique: true, required: true },
     password: String,
     accessables: [String]
 });
