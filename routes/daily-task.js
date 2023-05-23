@@ -51,11 +51,3 @@ exports.addTask = (req, res) => {
     });
 
 };
-
-[
-    {
-        type: "yopuvchi",
-        staff: [],
-        joined: false
-    }
-]

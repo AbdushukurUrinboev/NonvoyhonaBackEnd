@@ -191,6 +191,12 @@ const plansSchema = new Schema({
     status: String
 });
 
+const access = new Schema({
+    user: { type: String, unique: true, required: true }, ,
+    password: String,
+    accessables: [String]
+});
+
 // all exports here
 
 module.exports = {
@@ -205,5 +211,6 @@ module.exports = {
     nasiyaSchema,
     daromatSchema,
     xamkorSchema,
-    plansSchema
+    plansSchema,
+    access
 }
