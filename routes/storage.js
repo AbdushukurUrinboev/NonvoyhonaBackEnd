@@ -6,6 +6,7 @@ const fs = require("fs");
 const { storageSchema } = require("./../schemas/schemas");
 // Model
 const Storage = mongoose.model('storage', storageSchema);
+const Xamkor = mongoose.model('xamkor');
 
 exports.storage = (_req, res) => {
     Storage.find({}).then((result) => {
@@ -25,11 +26,16 @@ exports.addProduct = async (req, res) => {
     const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
     const currTimeStamp = Date.now()
     const result = await Storage.findOne({ productName: req.body.productName });
+    const foundXamkor = await Xamkor.findOne({ firstName: req.body.xamkor.split(" ")[0], lastName: req.body.xamkor.split(" ")[1] });
+    if (foundXamkor) {
+        foundXamkor.paymentRequired += req.body.umumiyNarhi;
+        await foundXamkor.save();
+    }
+
     if (!result) {
         const newProduct = new Storage({ ...(req.body), storageImage: req.file ? req.file.path : "none", olinganSana: modifiedDate, olinganSoat: exactTime });
         const newProductForStorage = await newProduct.save();
         // adds to expenses
-        // console.log("hello")
         // console.log({ olinganSana: modifiedDate, olinganSoat: exactTime, currTimeStamp });
         await addFromStorage({ ...(req.body), olinganSana: modifiedDate, olinganSoat: exactTime, currTimeStamp })
         res.send(newProductForStorage);
@@ -40,6 +46,8 @@ exports.addProduct = async (req, res) => {
         await addFromStorage({ ...(req.body), olinganSana: modifiedDate, olinganSoat: exactTime, currTimeStamp })
         res.send(updatedDoc);
     }
+
+
 };
 exports.subtractFromStorage = async (obj, qop) => {
     const result = await Storage.findOne({ productName: obj.itemName });
