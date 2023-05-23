@@ -96,6 +96,7 @@ const {
     updatePlan,
     onePlan
 } = require("./routes/plans");
+const { access, addAccess, deleteAccess, updateAccess } = require("./routes/access");
 
 
 
@@ -157,6 +158,12 @@ async function main() {
 mongoose.connection.on("open", function (ref) {
     console.log("Connected to mongo server.");
 });
+
+app.route('/access')
+    .get(access)
+    .post(addAccess)
+    .delete(deleteAccess)
+    .put(updateAccess);
 
 // Handle Customers
 app.route('/customers')
