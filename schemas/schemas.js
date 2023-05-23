@@ -176,7 +176,10 @@ const xamkorSchema = new Schema({
     address: String,
     workPlace: String,
     position: String,
-    paymentRequired: Number
+    paymentRequired: { type: Number, default: 0 }
+
+
+
 });
 const onSailSchema = new Schema({
     breadName: String,
