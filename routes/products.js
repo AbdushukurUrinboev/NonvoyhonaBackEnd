@@ -51,6 +51,15 @@ exports.deleteGood = async (req, res) => {
 
 exports.updateGood = async (req, res) => {
     const filter = { _id: req.body.changingID }
+    req.body.requiredItems = req.body.requiredItems.map((item) => {
+        return JSON.parse(item);
+    });
+    req.body.others = req.body.others.map((item) => {
+        return JSON.parse(item);
+    })
+    req.body.staffShare = req.body.staffShare.map((item) => {
+        return JSON.parse(item);
+    })
     if (req.file) {
         const doc = await Products.findOneAndUpdate(filter, { ...(req.body), productImage: req.file.path });
         fs.unlink(doc.productImage, (err) => err);
