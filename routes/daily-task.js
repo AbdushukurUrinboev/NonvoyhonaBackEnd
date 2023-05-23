@@ -34,7 +34,7 @@ exports.addTask = (req, res) => {
         let { group, smena, bonusTulov, tulov, xodim, jamiTulov, ...rest } = req.body;
         for (let i = 0; i < xodim.length; i++) {
             let foundRole = currProduct.staffShare.find(obj => obj.type === xodim[i].type);
-            const perStaffShare = xodim[i].joined ? foundRole.share / xodim[i].staff.length : foundRole.share;
+            const perStaffShare = (xodim[i].joined ? foundRole.share / xodim[i].staff.length : foundRole.share) * req.body.qoplarSoni;
             if (xodim[i].staff.length > 1) {
                 for (let j = 0; j < xodim[i].staff.length; j++) {
                     await updateStaffHistory(xodim[i].staff[j], rest, perStaffShare, modifiedDate);
@@ -44,10 +44,10 @@ exports.addTask = (req, res) => {
             }
         }
 
-        // add to expenses section
-        await addFromDailyTasks(currProduct.productName, currProduct.allExpensesPerBag, req.body.qoplarSoni, req.body.nonSoni, modifiedDate, currTimeStamp);
+        // add to expenses section for 'others and staff payment' expenses
+        await addFromDailyTasks(currProduct.productName, currProduct.allExpensesPerBag + (jamiTulov / req.body.qoplarSoni), req.body.qoplarSoni, req.body.nonSoni, modifiedDate, currTimeStamp);
 
-        res.send({ status: 200, msg: { addSail: output } })
+        res.send({ status: 200, msg: { addSail: output } });
     });
 
 };

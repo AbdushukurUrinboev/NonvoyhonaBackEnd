@@ -23,7 +23,6 @@ exports.updateStaffHistory = async (nameOfTheEmployee, addingObj, tulov, date) =
     } else {
         foundEmployee.workHistory = [...(foundEmployee.workHistory), { ...addingObj, tulov, date }];
     }
-    foundEmployee.additionalSalary += tulov;
     return await foundEmployee.save();
 }
 
@@ -34,6 +33,7 @@ exports.specificStaff = (req, res) => {
 }
 
 exports.addSalary = async (req, res) => {
+    // chiqimlarga qoshish kerak
     const staffID = req.params.id;
     const foundStaff = await Staff.findOne({ _id: staffID });
     if (foundStaff.AllsalaryHistory >= 12) {
@@ -43,7 +43,6 @@ exports.addSalary = async (req, res) => {
     } else {
         foundStaff.AllsalaryHistory = [...(foundStaff.AllsalaryHistory), req.body];
     }
-    foundStaff.additionalSalary = 0;
     const saved = await foundStaff.save();
     res.send(saved);
 }
