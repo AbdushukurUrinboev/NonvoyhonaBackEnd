@@ -41,6 +41,8 @@ exports.addProduct = async (req, res) => {
         res.send(newProductForStorage);
     } else {
         result.poductQuantity += parseFloat(req.body.poductQuantity);
+        result.olinganSana = modifiedDate;
+        result.olinganSoat = exactTime;
         const updatedDoc = await result.save();
         // adds to expenses
         await addFromStorage({ ...(req.body), olinganSana: modifiedDate, olinganSoat: exactTime, currTimeStamp })
