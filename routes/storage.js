@@ -28,7 +28,7 @@ exports.addProduct = async (req, res) => {
     const result = await Storage.findOne({ productName: req.body.productName });
     const foundXamkor = await Xamkor.findOne({ firstName: req.body.xamkor.split(" ")[0], lastName: req.body.xamkor.split(" ")[1] });
     if (foundXamkor) {
-        foundXamkor.paymentRequired += req.body.umumiyNarhi;
+        foundXamkor.paymentRequired += req.body.umumiyNarhi - req.body.berilganAvans;
         await foundXamkor.save();
     }
 
