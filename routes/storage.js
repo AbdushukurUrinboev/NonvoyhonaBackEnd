@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const { addFromStorage } = require("./expenses");
 const fs = require("fs");
 // Schemas
-const { storageSchema } = require("./../schemas/schemas");
+const { storageSchema, xamkorSchema } = require("./../schemas/schemas");
 // Model
 const Storage = mongoose.model('storage', storageSchema);
-const Xamkor = mongoose.model('xamkor');
+const Xamkor = mongoose.model('xamkor', xamkorSchema);
 
 exports.storage = (_req, res) => {
     Storage.find({}).then((result) => {

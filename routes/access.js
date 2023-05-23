@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // Schemas
 const { access } = require("./../schemas/schemas");
 // Model
-const Access = mongoose.model('xamkor', access);
+const Access = mongoose.model('access', access);
 
 exports.access = (_req, res) => {
     Access.find({}).then((result) => {
