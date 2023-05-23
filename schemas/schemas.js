@@ -41,7 +41,7 @@ const storageSchema = new Schema({ // product
     poductQuantity: Number,
     umumiyNarhi: Number,
     olinganSana: String,
-    berilganAvans: String,
+    berilganAvans: Number,
     olinganSoat: String,
     xamkor: String,
     storageImage: String
