@@ -73,7 +73,8 @@ const staffSchema = new Schema({
     additionalSalary: { type: Number, default: 0 },
     image: String,
     workHistory: [workHistorySchema],
-    AllsalaryHistory: [salarySchema]
+    AllsalaryHistory: [salarySchema],
+    remainingDepts: { type: Number, default: 0 }
 });
 const ordersSchema = new Schema({
     order: String,
