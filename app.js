@@ -254,7 +254,10 @@ app.route('/sale')
 // Handle Nasiya
 
 app.route('/nasiya/:id')
-    .get(oneNasiya)
+    .get(oneNasiya);
+
+app.route('/nasiya/staff/:id')
+    .post(oneNasiya)
 
 app.route('/nasiya')
     .get(nasiya)

@@ -2,10 +2,12 @@
 const mongoose = require("mongoose");
 const { reportDataInRange } = require("./../custom/functions");
 // Schemas
-const { nasiyaSchema } = require("./../schemas/schemas");
+const { nasiyaSchema, staffSchema } = require("./../schemas/schemas");
 // Model
 const Nasiya = mongoose.model('nasiya', nasiyaSchema);
 const Customers = mongoose.model('customers');
+const Staff = mongoose.model('staff', staffSchema);
+
 
 exports.nasiya = (_req, res) => {
     Nasiya.find({}).then((result) => {
@@ -17,6 +19,16 @@ exports.oneNasiya = (req, res) => {
     Nasiya.findOne({ _id: req.params.id }).then((result) => {
         res.send(result);
     });
+};
+
+exports.addNasiyaForStaff = async (req, res) => {
+    const foundStaff = await Staff.findOne({ _id: req.params.id });
+    foundStaff.remainingDepts += req.body.overall;
+    const savedStaff = await foundStaff.save();
+    const timeStamp = Date.now()
+    const newNasiya = new Nasiya({ ...req.body, timeStamp });
+    await newNasiya.save();
+    res.send(savedStaff);
 };
 
 exports.addNasiyaManually = async (newObj) => {
