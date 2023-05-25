@@ -49,8 +49,8 @@ exports.sellToCustomer = async (req, res) => {
     // sample obj = {order: Patir, productQuantity: 3, customer: "Abdurashid Abdullayev",date: "12/32/34", avans: 60000, price: 70000, customerType: "zakaz"}
     // add to customer history
     // given name must be spaced between firstName and lastName
-    
-    
+
+
     // handle remove from orders collec or onSale
     if (req.body.customerType === "zakaz") {
         await deleteOrderFromSale(req.body.customerID);
@@ -60,7 +60,7 @@ exports.sellToCustomer = async (req, res) => {
     let newOrderForCustomer = null;
     let doc = await Customers.findOne({ firstName: req.body.customer.split(" ")[0], lastName: req.body.customer.split(" ")[1] });
     if (doc) {
-         newOrderForCustomer = {
+        newOrderForCustomer = {
             product: req.body.order,
             productQuantity: req.body.productQuantity,
             date: modifiedDate,
@@ -76,12 +76,12 @@ exports.sellToCustomer = async (req, res) => {
     if (doc) {
         const resultttt = await doc.save();
         if (req.body.avans === 0 || req.body.avans < req.body.price) {
-            const nasiyaScheme = { ...newOrderForCustomer, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary", productID: resultttt.history[resultttt.history.length - 1]._id, userId: doc._id }
+            const nasiyaScheme = { ...newOrderForCustomer, customer: req.body.customer, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary", productID: resultttt.history[resultttt.history.length - 1]._id, userId: doc._id }
             await addNasiyaManually(nasiyaScheme);
         }
     } else {
         if (req.body.avans === 0 || req.body.avans < req.body.price) {
-            const nasiyaScheme = { product: req.body.order, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price }
+            const nasiyaScheme = { product: req.body.order, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price }
             await addNasiyaManually(nasiyaScheme);
         }
     }
