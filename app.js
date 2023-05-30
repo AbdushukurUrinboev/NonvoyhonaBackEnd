@@ -64,6 +64,7 @@ const {
     addNasiya,
     updateNasiya,
     deleteNasiya,
+    addNasiyaForStaff,
     reportNasiya,
     oneNasiya
 } = require("./routes/nasiya");
@@ -257,7 +258,7 @@ app.route('/nasiya/:id')
     .get(oneNasiya);
 
 app.route('/nasiya/staff/:id')
-    .post(oneNasiya)
+    .post(addNasiyaForStaff)
 
 app.route('/nasiya')
     .get(nasiya)
