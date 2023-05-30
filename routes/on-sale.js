@@ -53,7 +53,7 @@ exports.sellToCustomer = async (req, res) => {
 
     // handle remove from orders collec or onSale
     if (req.body.customerType === "zakaz") {
-        await deleteOrderFromSale(req.body.customerID);
+        await deleteOrderFromSale(req.body.customerID, req.body.productQuantity, req.body.avans);
     }
     await subtrackFromSale({ name: req.body.order, quantity: req.body.productQuantity });
 

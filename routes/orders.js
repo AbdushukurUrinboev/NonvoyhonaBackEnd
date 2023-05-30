@@ -47,9 +47,17 @@ exports.addOrder = (req, res) => {
 
 };
 
-exports.deleteOrderFromSale = async (id) => {
-    const result = await Orders.deleteOne({ _id: id });
-    return result;
+exports.deleteOrderFromSale = async (id, quantity, avans) => {
+    const result = await Orders.findOne({ _id: id });
+    if (result.productQuantity > quantity) {
+        result.productQuantity -= quantity;
+        result.avans += avans;
+        return await result.save()
+    } else if (result.productQuantity === quantity) {
+        return await result.remove()
+    } else {
+        return
+    }
 }
 exports.deleteOrder = (req, res) => {
     Orders.deleteOne({ _id: req.body.id }, (err) => {
