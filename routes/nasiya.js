@@ -76,16 +76,23 @@ exports.addNasiya = (req, res) => {
 
 exports.deleteNasiya = async (req, res) => {
     const foundNasiya = await Nasiya.findOne({ _id: req.body.id });
-    if (foundNasiya.userId) {
-        const foundCustomer = await Customers.findOne({ _id: foundNasiya.userId });
-        const newHistory = foundCustomer.history.filter((elem) => elem._id != foundNasiya.productID);
-        foundCustomer.history = newHistory
-        const output = await foundCustomer.save();
-        await foundNasiya.remove();
-        res.send(output);
+    if (req.body.customerType) {
+        if (foundNasiya.userId) {
+            const foundCustomer = await Customers.findOne({ _id: foundNasiya.userId });
+            const newHistory = foundCustomer.history.filter((elem) => elem._id != foundNasiya.productID);
+            foundCustomer.history = newHistory
+            const output = await foundCustomer.save();
+            await foundNasiya.remove();
+            res.send(output);
+        } else {
+            await foundNasiya.remove();
+            res.send("deleted");
+        }
     } else {
+        const foundCustomer = await Staff.findOne({ firstName: foundNasiya.customer.split(" ")[0], lastName: foundNasiya.customer.split(" ")[1] });
+        foundCustomer.remainingDepts -= foundNasiya.overall;
+        await foundCustomer.save();
         await foundNasiya.remove();
-        res.send("deleted");
     }
 }
 exports.updateNasiya = (req, res) => {
