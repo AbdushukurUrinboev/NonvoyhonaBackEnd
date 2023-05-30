@@ -91,8 +91,9 @@ exports.deleteNasiya = async (req, res) => {
     } else {
         const foundCustomer = await Staff.findOne({ firstName: foundNasiya.customer.split(" ")[0], lastName: foundNasiya.customer.split(" ")[1] });
         foundCustomer.remainingDepts -= foundNasiya.overall;
-        await foundCustomer.save();
+        const output = await foundCustomer.save();
         await foundNasiya.remove();
+        res.send(output);
     }
 }
 exports.updateNasiya = (req, res) => {
