@@ -26,7 +26,7 @@ exports.addNasiyaForStaff = async (req, res) => {
     foundStaff.remainingDepts += req.body.overall;
     const savedStaff = await foundStaff.save();
     const timeStamp = Date.now()
-    const newNasiya = new Nasiya({ ...req.body, timeStamp });
+    const newNasiya = new Nasiya({ ...req.body, timeStamp, customer: foundStaff.firstName + " " + foundStaff.lastName });
     await newNasiya.save();
     res.send(savedStaff);
 };
