@@ -81,7 +81,7 @@ exports.sellToCustomer = async (req, res) => {
         }
     } else {
         if (req.body.avans === 0 || req.body.avans < req.body.price) {
-            const nasiyaScheme = { product: req.body.order, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price }
+            const nasiyaScheme = { product: req.body.order, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary" }
             await addNasiyaManually(nasiyaScheme);
         }
     }
