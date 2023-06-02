@@ -88,7 +88,8 @@ const {
     addXamkor,
     updateXamkor,
     deleteXamkor,
-    oneXamkor
+    oneXamkor,
+    payXamkor
 } = require("./routes/xamkor");
 const {
     plans,
@@ -223,6 +224,8 @@ app.route('/calculation')
 
 app.route('/xamkor/:id')
     .get(oneXamkor)
+
+app.post('/xamkor/pay/:id', payXamkor)
 
 app.route('/xamkor')
     .get(xamkor)
