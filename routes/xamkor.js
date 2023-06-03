@@ -17,6 +17,16 @@ exports.oneXamkor = (req, res) => {
     });
 };
 
+exports.payXamkor = async (req, res) => {
+    const serverDate = new Date();
+    const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
+    const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
+    const result = await Xamkor.findOne({ _id: req.params.id });
+    result.paymentHistory = [...result.paymentHistory, { ...req.body, date: modifiedDate, time: exactTime }];
+    result.paymentRequired -= req.body.amount;
+    await result.save();
+}
+
 exports.addXamkor = (req, res) => {
     const newOrder = new Xamkor(req.body);
     newOrder.save((err, newOrderDoc) => {

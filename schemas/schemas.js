@@ -168,6 +168,13 @@ const expensesSchema = new Schema({
     year: Number,
     timeStamp: Number
 });
+
+const xamkorPaymentSchema = new Schema({
+    date: String,
+    time: String,
+    amount: Number
+});
+
 const xamkorSchema = new Schema({
     firstName: String,
     lastName: String,
@@ -177,8 +184,13 @@ const xamkorSchema = new Schema({
     address: String,
     workPlace: String,
     position: String,
-    paymentRequired: { type: Number, default: 0 }
+    paymentRequired: { type: Number, default: 0 },
+    paymentHistory: {
+        type: [xamkorPaymentSchema], default: []
+    }
 });
+
+
 const onSailSchema = new Schema({
     breadName: String,
     quantity: Number,
@@ -196,6 +208,20 @@ const access = new Schema({
     user: { type: String, unique: true, required: true },
     password: String,
     accessables: [String]
+});
+
+
+// middlewares
+
+
+xamkorSchema.pre('save', function (next) {
+    const maxHistoryLength = 20; // Define your desired maximum length for the history array
+    // If the history array has reached the maximum length, remove the first string
+    if (this.paymentHistory.length >= maxHistoryLength) {
+        this.paymentHistory.shift();
+    }
+
+    next();
 });
 
 // all exports here
