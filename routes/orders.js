@@ -34,7 +34,7 @@ exports.addOrder = (req, res) => {
     const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
     const newOrder = new Orders({ ...(req.body), date: modifiedDate, time: exactTime });
     if (req.body.avans < req.body.price * req.body.productQuantity) {
-        addNasiyaManually({ product: req.body.order, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, overall: req.body.price, avans: req.body.avans })
+        addNasiyaManually({ product: req.body.order, customerType: req.body.type, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, overall: req.body.price, avans: req.body.avans })
     }
     newOrder.save(async (err, newOrderDoc) => {
         if (err) {
