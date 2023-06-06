@@ -24,7 +24,8 @@ exports.payXamkor = async (req, res) => {
     const result = await Xamkor.findOne({ _id: req.params.id });
     result.paymentHistory = [...result.paymentHistory, { ...req.body, date: modifiedDate, time: exactTime }];
     result.paymentRequired -= req.body.amount;
-    await result.save();
+    const response = await result.save();
+    res.send(response);
 }
 
 exports.addXamkor = (req, res) => {
