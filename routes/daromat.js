@@ -34,7 +34,7 @@ exports.addFromSale = async (tempObj) => {
     month = parseInt(month);
     year = parseInt(year);
     // altered To Expense Schema
-    const toExpensesSchema = { name: tempObj.name, quantity: tempObj.poductQuantity, overallPrice: tempObj.overallPrice, day, month, year, timeStamp: timeStamp }
+    const toExpensesSchema = { name: tempObj.name, quantity: tempObj.quantity, overallPrice: tempObj.overallPrice, day, month, year, timeStamp: timeStamp }
     const newExpense = new Daromat(toExpensesSchema);
     // deletes from last 4 months
     await deletePrevMonths(month, year);
