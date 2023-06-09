@@ -18,8 +18,6 @@ exports.orders = async (req, res) => {
         const output = await reportDataInRange(startDate, endDate, Orders);
         res.send(output);
     }
-
-
 };
 
 exports.oneOrder = (req, res) => {
