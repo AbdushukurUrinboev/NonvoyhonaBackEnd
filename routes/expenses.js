@@ -89,7 +89,7 @@ const reportWithGivenDate = async (startDate, endDate) => {
 
 const getLastWeek = async () => {
     const CurrenttimeStamp = Date.now();
-    const lastWeek = CurrenttimeStamp - 10080000
+    const lastWeek = CurrenttimeStamp - 604800000
     return await Expenses.find({
         timeStamp: { $lte: CurrenttimeStamp, $gt: lastWeek }
     });

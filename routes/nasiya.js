@@ -40,7 +40,7 @@ exports.addNasiyaManually = async (newObj) => {
 
 const getLastWeek = async () => {
     const CurrenttimeStamp = Date.now();
-    const lastWeek = CurrenttimeStamp - 10080000
+    const lastWeek = CurrenttimeStamp - 604800000
     return await Nasiya.find({
         timeStamp: { $lte: CurrenttimeStamp, $gt: lastWeek }
     });
