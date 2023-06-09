@@ -46,7 +46,7 @@ exports.addFromSale = async (tempObj) => {
 
 const getLastWeek = async () => {
     const CurrenttimeStamp = Date.now();
-    const lastWeek = CurrenttimeStamp - 10080000
+    const lastWeek = CurrenttimeStamp - 604800000
     return await Daromat.find({
         timeStamp: { $lte: CurrenttimeStamp, $gt: lastWeek }
     });
@@ -67,7 +67,7 @@ exports.reportDaromat = async (req, res) => {
 
 const getProductLastWeek = async (product) => {
     const CurrenttimeStamp = Date.now();
-    const lastWeek = CurrenttimeStamp - 10080000
+    const lastWeek = CurrenttimeStamp - 604800000
     return await Daromat.find({
         timeStamp: { $lte: CurrenttimeStamp, $gt: lastWeek },
         name: product
