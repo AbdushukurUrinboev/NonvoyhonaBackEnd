@@ -26,22 +26,22 @@ exports.oneOrder = (req, res) => {
     });
 };
 
-exports.addOrder = (req, res) => {
+exports.addOrder = async (req, res) => {
+
+
+
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
     const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
-    const newOrder = new Orders({ ...(req.body), date: modifiedDate, time: exactTime });
-    if (req.body.avans < req.body.price * req.body.productQuantity) {
-        addNasiyaManually({ product: req.body.order, customerType: req.body.type, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, overall: req.body.price, avans: req.body.avans })
+    for (let i = 0; i < req.body.orders.length; i++) {
+        let currObject = req.body.orders[i]
+        const newOrder = new Orders({ ...(currObject), date: modifiedDate, time: exactTime });
+        if (currObject.avans < currObject.price * currObject.productQuantity) {
+            await addNasiyaManually({ product: currObject.order, customerType: currObject.type, customer: currObject.customer, productQuantity: currObject.productQuantity, date: modifiedDate, overall: currObject.price, avans: currObject.avans })
+        }
+        await newOrder.save();
     }
-    newOrder.save(async (err, newOrderDoc) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(newOrderDoc);
-        };
-        // saved!
-    });
+
 
 };
 
