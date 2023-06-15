@@ -45,7 +45,7 @@ exports.addOrder = async (req, res) => {
     }
     let response = "no nasiya";
     if (req.body.avans < req.body.neededPayment) {
-        response = await addNasiyaManually({ product: allProducts, customerType: req.body.orders[0].type, customer: req.body.orders[0].customer, productQuantity: allProducts, date: modifiedDate, overall: req.body.neededPayment, avans: req.body.avans })
+        response = await addNasiyaManually({ product: allProducts, customerType: req.body.orders[0].type, customer: req.body.orders[0].customer, productQuantity: allquantity, date: modifiedDate, overall: req.body.neededPayment, avans: req.body.avans })
     }
     res.send({
         code: 200, dt: response
