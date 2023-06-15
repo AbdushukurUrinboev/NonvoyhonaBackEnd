@@ -27,9 +27,6 @@ exports.oneOrder = (req, res) => {
 };
 
 exports.addOrder = async (req, res) => {
-
-
-
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
     const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
