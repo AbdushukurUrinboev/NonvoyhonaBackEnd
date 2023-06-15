@@ -43,9 +43,14 @@ exports.addOrder = async (req, res) => {
         const newOrder = new Orders({ ...(currObject), date: modifiedDate, time: exactTime });
         await newOrder.save();
     }
+    let response = "no nasiya";
     if (req.body.avans < req.body.neededPayment) {
-        await addNasiyaManually({ product: allProducts, customerType: req.body.orders[0].type, customer: req.body.orders[0].customer, productQuantity: allProducts, date: modifiedDate, overall: req.body.neededPayment, avans: req.body.avans })
+        response = await addNasiyaManually({ product: allProducts, customerType: req.body.orders[0].type, customer: req.body.orders[0].customer, productQuantity: allProducts, date: modifiedDate, overall: req.body.neededPayment, avans: req.body.avans })
     }
+    res.send({
+        code: 200, dt: response
+    });
+
 
 
 };
