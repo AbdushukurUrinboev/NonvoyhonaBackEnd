@@ -27,20 +27,30 @@ exports.oneOrder = (req, res) => {
 };
 
 exports.addOrder = async (req, res) => {
-
-
-
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
     const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
+    const allProducts = '';
+    const allquantity = 0;
     for (let i = 0; i < req.body.orders.length; i++) {
         let currObject = req.body.orders[i]
-        const newOrder = new Orders({ ...(currObject), date: modifiedDate, time: exactTime });
-        if (currObject.avans < currObject.price * currObject.productQuantity) {
-            await addNasiyaManually({ product: currObject.order, customerType: currObject.type, customer: currObject.customer, productQuantity: currObject.productQuantity, date: modifiedDate, overall: currObject.price, avans: currObject.avans })
+        if (req.body.orders.length === i + 1) {
+            allProducts += currObject.order;
+        } else {
+            allProducts += currObject.order + ", "
         }
+        allquantity += currObject.productQuantity
+        const newOrder = new Orders({ ...(currObject), date: modifiedDate, time: exactTime });
         await newOrder.save();
     }
+    let response = "no nasiya";
+    if (req.body.avans < req.body.neededPayment) {
+        response = await addNasiyaManually({ product: allProducts, customerType: req.body.orders[0].type, customer: req.body.orders[0].customer, productQuantity: allProducts, date: modifiedDate, overall: req.body.neededPayment, avans: req.body.avans })
+    }
+    res.send({
+        code: 200, dt: response
+    });
+
 
 
 };
