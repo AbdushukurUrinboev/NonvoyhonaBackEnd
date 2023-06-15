@@ -30,8 +30,8 @@ exports.addOrder = async (req, res) => {
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`;
     const exactTime = `${serverDate.getHours()}:${serverDate.getMinutes()}`;
-    const allProducts = '';
-    const allquantity = 0;
+    let allProducts = '';
+    let allquantity = 0;
     for (let i = 0; i < req.body.orders.length; i++) {
         let currObject = req.body.orders[i]
         if (req.body.orders.length === i + 1) {
