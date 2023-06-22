@@ -99,6 +99,7 @@ const {
     onePlan
 } = require("./routes/plans");
 const { access, addAccess, deleteAccess, updateAccess } = require("./routes/access");
+const { attandance, addAttandance, updateAttandance } = require("./routes/attandance");
 
 
 
@@ -196,7 +197,12 @@ app.route('/staff')
 
 app.route('/staff/:id')
     .get(specificStaff)
-    .post(addSalary)
+    .post(addSalary);
+
+app.route("/attandance")
+    .get(attandance)
+    .post(addAttandance)
+    .put(updateAttandance);
 
 // Handle Orders
 
