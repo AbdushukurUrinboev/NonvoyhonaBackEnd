@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { attandanceModify, storeMax20 } = require("./middlewares");
 
 const bonusBreadSchema = new Schema({
     breadName: String,
@@ -58,6 +59,16 @@ const workHistorySchema = new Schema({
     tulov: Number
 });
 
+const attendaceSchema = new Schema({
+    firstName: String,
+    lastName: String,
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    present: Boolean
+});
+
 const staffSchema = new Schema({
     firstName: String,
     lastName: String,
@@ -76,6 +87,7 @@ const staffSchema = new Schema({
     AllsalaryHistory: [salarySchema],
     remainingDepts: { type: Number, default: 0 }
 });
+
 const ordersSchema = new Schema({
     order: String,
     customer: String,
@@ -210,18 +222,11 @@ const access = new Schema({
 });
 
 
-// middlewares
+/* middlewares*/
 
-
-xamkorSchema.pre('save', function (next) {
-    const maxHistoryLength = 20; // Define your desired maximum length for the history array
-    // If the history array has reached the maximum length, remove the first string
-    if (this.paymentHistory.length >= maxHistoryLength) {
-        this.paymentHistory.shift();
-    }
-
-    next();
-});
+storeMax20(xamkorSchema);
+// keeps last 3 months
+attandanceModify(attendaceSchema);
 
 // all exports here
 
@@ -238,5 +243,6 @@ module.exports = {
     daromatSchema,
     xamkorSchema,
     plansSchema,
-    access
+    access,
+    attendaceSchema
 }
