@@ -66,6 +66,14 @@ const attendaceSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    timeOfArrival: {
+        type: String,
+        default: () => {
+            const currentTime = new Date();
+            const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
+            return formattedTime;
+        }
+    },
     present: Boolean
 });
 
