@@ -99,7 +99,7 @@ const {
     onePlan
 } = require("./routes/plans");
 const { access, addAccess, deleteAccess, updateAccess } = require("./routes/access");
-const { attandance, addAttandance, updateAttandance } = require("./routes/attandance");
+const { attandance, addAttandance, updateAttandance, oneAttandance } = require("./routes/attandance");
 
 
 
@@ -203,6 +203,8 @@ app.route("/attandance")
     .get(attandance)
     .post(addAttandance)
     .put(updateAttandance);
+
+app.get('/one-attandance', oneAttandance)
 
 // Handle Orders
 

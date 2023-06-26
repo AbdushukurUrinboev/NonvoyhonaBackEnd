@@ -20,12 +20,17 @@ exports.attandance = async (req, res) => {
     res.send(response);
 };
 
+exports.oneAttandance = async (req, res) => {
+    const result = await Attandance.findOne({ firstName: req.body.firstName, lastName: req.body.lastName });
+    res.send(result);
+}
 
 
 exports.addAttandance = async (req, res) => {
     // req.body = {present: true, staffId: staffID}
-    const foundStaff = await Staff.findOne({ _id: req.body.staffId });
-    const newAttandance = new Attandance({ present: req.body.present, firstName: foundStaff.firstName, lastName: foundStaff.lastName });
+    const { staffId, ...newAttandanceSchema } = req.body;
+    const foundStaff = await Staff.findOne({ _id: staffId });
+    const newAttandance = new Attandance({ firstName: foundStaff.firstName, lastName: foundStaff.lastName, ...newAttandanceSchema });
     const response = await newAttandance.save();
     res.send(response);
 };
