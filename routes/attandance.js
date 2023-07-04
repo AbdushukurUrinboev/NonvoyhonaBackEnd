@@ -11,13 +11,18 @@ exports.attandance = async (req, res) => {
     let { startDate, endDate } = req.query; // dates '2022-02-01'
     startDate = new Date(startDate);
     endDate = new Date(endDate);
-    const response = await Attandance.find({
-        date: {
-            $gte: startDate,
-            $lte: endDate
-        }
-    });
-    res.send(response);
+    if (startDate && endDate) {
+        const response = await Attandance.find({
+            date: {
+                $gte: startDate,
+                $lte: endDate
+            }
+        });
+        res.send(response);
+    } else {
+        const response = await Attandance.find({});
+        res.send(response);
+    }
 };
 
 exports.oneAttandance = async (req, res) => {
