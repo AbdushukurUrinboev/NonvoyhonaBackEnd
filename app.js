@@ -301,6 +301,6 @@ app.get('/report/daromat', reportDaromat);
 app.get('/report/daromat/:productName', reportDaromatPerProduct);
 
 
-app.listen(port, () => {
-    console.log(`Listening to port ${port}`);
+app.listen((port || 4000), () => {
+    console.log(`Listening to port ${port || 4000}`);
 });
