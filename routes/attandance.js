@@ -9,9 +9,9 @@ const Staff = mongoose.model('staff', staffSchema);
 
 exports.attandance = async (req, res) => {
     let { startDate, endDate } = req.query; // dates '2022-02-01'
-    startDate = new Date(startDate);
-    endDate = new Date(endDate);
     if (startDate && endDate) {
+        startDate = new Date(startDate);
+        endDate = new Date(endDate);
         const response = await Attandance.find({
             date: {
                 $gte: startDate,
