@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const SharpMulter = require("sharp-multer");
 const app = express();
+const cronJobs = require('./custom/cronJobs');
 const multer = require('multer');
 require('dotenv').config()
 mongoose.pluralize(null);
@@ -100,6 +101,7 @@ const {
 } = require("./routes/plans");
 const { access, addAccess, deleteAccess, updateAccess } = require("./routes/access");
 const { attandance, addAttandance, updateAttandance, oneAttandance } = require("./routes/attandance");
+
 
 
 

@@ -20,6 +20,13 @@ exports.attandance = async (req, res) => {
         });
         res.send(response);
     } else {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+
         const response = await Attandance.find({});
         res.send(response);
     }
@@ -46,3 +53,5 @@ exports.updateAttandance = (req, res) => {
         res.send(doc);
     });
 }
+
+exports.AttandanceModel = Attandance;
