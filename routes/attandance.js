@@ -1,6 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
 // Schemas
+
 const { attendaceSchema, staffSchema } = require("./../schemas/schemas");
 // Model
 const Attandance = mongoose.model('attandance', attendaceSchema);
@@ -20,6 +21,13 @@ exports.attandance = async (req, res) => {
         });
         res.send(response);
     } else {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
+
         const response = await Attandance.find({});
         res.send(response);
     }

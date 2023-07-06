@@ -103,6 +103,7 @@ const { attandance, addAttandance, updateAttandance, oneAttandance } = require("
 
 
 
+
 // PORT
 const port = process.env.PORT;
 // setting Up
@@ -300,6 +301,8 @@ app.get('/report/nasiya', reportNasiya);
 app.get('/report/daromat', reportDaromat);
 app.get('/report/daromat/:productName', reportDaromatPerProduct);
 
+
+require('./custom/cronJobs');
 
 app.listen((port || 4000), () => {
     console.log(`Listening to port ${port || 4000}`);
