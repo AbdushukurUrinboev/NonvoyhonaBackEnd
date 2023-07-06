@@ -1,6 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
 // Schemas
+
 const { attendaceSchema, staffSchema } = require("./../schemas/schemas");
 // Model
 const Attandance = mongoose.model('attandance', attendaceSchema);
@@ -53,5 +54,3 @@ exports.updateAttandance = (req, res) => {
         res.send(doc);
     });
 }
-
-exports.AttandanceModel = Attandance;

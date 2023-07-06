@@ -1,8 +1,8 @@
 const cron = require('node-cron');
 const mongoose = require("mongoose");
-const { AttandanceModel: Attandance } = require('./../routes/attandance'); // Replace with the path to your Mongoose model file
-const { staffSchema } = require('./../schemas/schemas');
+const { staffSchema, attendaceSchema } = require('./../schemas/schemas');
 
+const Attandance = mongoose.model('attandance', attendaceSchema);
 const Staff = mongoose.model('staff', staffSchema);
 
 const createNewObject = async () => {

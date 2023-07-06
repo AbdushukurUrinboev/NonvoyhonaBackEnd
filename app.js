@@ -5,7 +5,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const SharpMulter = require("sharp-multer");
 const app = express();
-const cronJobs = require('./custom/cronJobs');
 const multer = require('multer');
 require('dotenv').config()
 mongoose.pluralize(null);
@@ -302,6 +301,8 @@ app.get('/report/nasiya', reportNasiya);
 app.get('/report/daromat', reportDaromat);
 app.get('/report/daromat/:productName', reportDaromatPerProduct);
 
+
+require('./custom/cronJobs');
 
 app.listen((port || 4000), () => {
     console.log(`Listening to port ${port || 4000}`);
