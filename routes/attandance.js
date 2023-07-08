@@ -28,7 +28,12 @@ exports.attandance = async (req, res) => {
         tomorrow.setDate(today.getDate() + 1);
 
 
-        const response = await Attandance.find({});
+        const response = await Attandance.find({
+            date: {
+                $gte: today,
+                $lt: tomorrow
+            }
+        });
         res.send(response);
     }
 };
