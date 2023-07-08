@@ -11,12 +11,14 @@ const createNewObject = async () => {
     const intitialAttendanceState = allStaff.map((staff) => {
         return { firstName: staff.firstName, lastName: staff.lastName, present: false }
     });
-    Attandance.insertMany(intitialAttendanceState)
+    Attandance.insertMany(intitialAttendanceState);
 }
 
 
 
 // Define the cron job schedule
-cron.schedule('0 1 * * *', createNewObject);
+cron.schedule('0 1 * * *', createNewObject, {
+    timezone: "Asia/Tashkent"
+});
 
 module.exports = cron;
