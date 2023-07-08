@@ -74,6 +74,10 @@ const attendaceSchema = new Schema({
             return formattedTime;
         }
     },
+    timeOfDeparture: {
+        type: String,
+        default: "00:00"
+    },
     present: Boolean
 });
 
