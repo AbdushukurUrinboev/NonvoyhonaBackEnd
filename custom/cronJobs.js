@@ -17,7 +17,7 @@ const createNewObject = async () => {
 
 
 // Define the cron job schedule
-cron.schedule('15 15 * * *', createNewObject, {
+cron.schedule('45 15 * * *', createNewObject, {
     timezone: "Asia/Tashkent"
 });
 
