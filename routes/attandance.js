@@ -34,7 +34,7 @@ exports.attandance = async (req, res) => {
                 $lt: tomorrow
             }
         });
-        if (response) {
+        if (response && response.length > 1) {
             res.send(response);
         } else {
             const allStaff = await Staff.find({});
@@ -50,6 +50,7 @@ exports.attandance = async (req, res) => {
                 }
             });
             res.send(response);
+
         }
     }
 };
