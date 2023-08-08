@@ -34,7 +34,23 @@ exports.attandance = async (req, res) => {
                 $lt: tomorrow
             }
         });
-        res.send(response);
+        if (response) {
+            res.send(response);
+        } else {
+            const allStaff = await Staff.find({});
+
+            const intitialAttendanceState = allStaff.map((staff) => {
+                return { firstName: staff.firstName, lastName: staff.lastName, present: false }
+            });
+            await Attandance.insertMany(intitialAttendanceState);
+            const response = await Attandance.find({
+                date: {
+                    $gte: today,
+                    $lt: tomorrow
+                }
+            });
+            res.send(response);
+        }
     }
 };
 
