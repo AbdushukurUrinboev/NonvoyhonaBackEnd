@@ -6,12 +6,12 @@ const Attandance = mongoose.model('attandance', attendaceSchema);
 const Staff = mongoose.model('staff', staffSchema);
 
 const createNewObject = async () => {
-    const allStaff = await Staff.find({});
+    // const allStaff = await Staff.find({});
 
-    const intitialAttendanceState = allStaff.map((staff) => {
-        return { firstName: staff.firstName, lastName: staff.lastName, present: false }
-    });
-    Attandance.insertMany(intitialAttendanceState);
+    // const intitialAttendanceState = allStaff.map((staff) => {
+    //     return { firstName: staff.firstName, lastName: staff.lastName, present: false }
+    // });
+    // Attandance.insertMany(intitialAttendanceState);
 }
 
 

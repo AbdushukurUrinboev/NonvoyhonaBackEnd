@@ -22,15 +22,20 @@ exports.attandance = async (req, res) => {
         res.send(response);
     } else {
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
 
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1);
+
+        const uzbekistanTimeOffset = 5; // Uzbekistan Time is UTC+5
+        const uzbekistanTime = new Date(today.getTime() + uzbekistanTimeOffset * 60 * 60 * 1000);
+        uzbekistanTime.setHours(0, 0, 0, 0);
+
+
+        const tomorrow = new Date(uzbekistanTime);
+        tomorrow.setDate(uzbekistanTime.getDate() + 1);
 
 
         const response = await Attandance.find({
             date: {
-                $gte: today,
+                $gte: uzbekistanTime,
                 $lt: tomorrow
             }
         });
