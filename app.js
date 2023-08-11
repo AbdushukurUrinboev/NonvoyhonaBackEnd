@@ -31,7 +31,8 @@ const {
     deleteStaff,
     updateStaff,
     specificStaff,
-    addSalary
+    addSalary,
+    addFine
 } = require("./routes/staff");
 const {
     orders,
@@ -100,7 +101,7 @@ const {
 } = require("./routes/plans");
 const { access, addAccess, deleteAccess, updateAccess } = require("./routes/access");
 const { attandance, addAttandance, updateAttandance, oneAttandance } = require("./routes/attandance");
-
+const { StaffModel } = require("./schemas/schemas")
 
 
 
@@ -151,6 +152,35 @@ app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json());
 app.use(cors());
 
+
+const cleanupOldDataForStaffFines = async (req, res, next) => {
+    try {
+        if (req.originalUrl.startsWith('/staff/fines/')) {
+            console.log("this one")
+            const twoMonthsAgo = new Date();
+            twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+            // Delete documents older than two months
+            await StaffModel.updateMany(
+                {
+                    'fines.date': { $lt: twoMonthsAgo }
+                },
+                {
+                    $pull: { fines: { date: { $lt: twoMonthsAgo } } }
+                }
+            );
+        } else {
+            console.log("not this one")
+        }
+
+        next();
+    } catch (error) {
+        console.error('Error cleaning up old data:', error);
+        next(error);
+    }
+};
+
+app.use(cleanupOldDataForStaffFines)
+
 main().catch(err => console.log(err));
 async function main() {
     // const prodMode = `mongodb://gen_user:7nhhw7kbq9@188.225.73.40:27017/default_db?authSource=admin&directConnection=true`;
@@ -162,6 +192,7 @@ async function main() {
 mongoose.connection.on("open", function (ref) {
     console.log("Connected to mongo server.");
 });
+
 
 app.route('/access')
     .get(access)
@@ -199,6 +230,9 @@ app.route('/staff')
 app.route('/staff/:id')
     .get(specificStaff)
     .post(addSalary);
+
+app.route('/staff/fines/:id')
+    .post(addFine);
 
 app.route("/attandance")
     .get(attandance)

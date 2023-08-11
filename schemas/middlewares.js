@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 
 const storeMax20 = (schema) => {
     schema.pre('save', function (next) {
@@ -32,6 +32,8 @@ const attandanceModify = (schema) => {
         });
     });
 }
+
+
 
 module.exports = {
     storeMax20,
