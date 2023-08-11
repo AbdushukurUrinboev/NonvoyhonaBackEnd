@@ -6,7 +6,6 @@ const fs = require('fs');
 const { staffSchema } = require("./../schemas/schemas");
 // Model
 const Staff = mongoose.model('staff', staffSchema);
-
 exports.staff = (_req, res) => {
     Staff.find({}).then((result) => {
         res.send(result);
@@ -84,3 +83,16 @@ exports.updateStaff = async (req, res) => {
         });
     }
 }
+
+exports.addFine = async (req, res) => {
+    let filter = { _id: req.params.id }
+    let foundStaff = await Staff.findOne(filter);
+    const formattedDate = new Date(req.body.date); // 2023-01-12
+    foundStaff.fines = [...(foundStaff.fines), { ...req.body, date: formattedDate }];
+
+    const savedDoc = await foundStaff.save();
+
+    res.send(savedDoc);
+
+}
+

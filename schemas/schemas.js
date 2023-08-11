@@ -81,9 +81,16 @@ const attendaceSchema = new Schema({
     present: Boolean
 });
 
+const staffFinesSchema = new Schema({
+    fine: { type: String, enum: ['red', 'green', 'yellow'] },
+    date: { type: Date },
+    description: String
+});
+
 const staffSchema = new Schema({
     firstName: String,
     lastName: String,
+    responsibility: String,
     gender: String,
     phone: String,
     phone2: String,
@@ -97,7 +104,8 @@ const staffSchema = new Schema({
     image: String,
     workHistory: [workHistorySchema],
     AllsalaryHistory: [salarySchema],
-    remainingDepts: { type: Number, default: 0 }
+    remainingDepts: { type: Number, default: 0 },
+    fines: [staffFinesSchema]
 });
 
 const ordersSchema = new Schema({
@@ -240,6 +248,7 @@ storeMax20(xamkorSchema);
 // keeps last 3 months
 attandanceModify(attendaceSchema);
 
+const StaffModel = mongoose.model('staff', staffSchema);
 // all exports here
 
 module.exports = {
@@ -256,5 +265,6 @@ module.exports = {
     xamkorSchema,
     plansSchema,
     access,
-    attendaceSchema
+    attendaceSchema,
+    StaffModel
 }
