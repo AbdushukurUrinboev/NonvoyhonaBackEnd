@@ -336,7 +336,7 @@ app.get('/report/daromat', reportDaromat);
 app.get('/report/daromat/:productName', reportDaromatPerProduct);
 
 
-require('./custom/cronJobs');
+// require('./custom/cronJobs');
 
 app.listen((port || 4000), () => {
     console.log(`Listening to port ${port || 4000}`);
