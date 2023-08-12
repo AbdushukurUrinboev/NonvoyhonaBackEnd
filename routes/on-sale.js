@@ -46,22 +46,38 @@ const subtrackFromSale = async ({ name, quantity }) => {
 exports.sellToCustomer = async (req, res) => {
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`
-    // sample obj = {order: Patir, productQuantity: 3, customer: "Abdurashid Abdullayev",date: "12/32/34", avans: 60000, price: 70000, customerType: "zakaz"}
+    // sample obj = {order: {name: 'Patir', quantity: 5, price: 10000}, productQuantity: 3, customer: "Abdurashid Abdullayev",date: "12/32/34", avans: 60000, price: 70000, customerType: "zakaz"}
     // add to customer history
     // given name must be spaced between firstName and lastName
-
 
     // handle remove from orders collec or onSale
     if (req.body.customerType === "zakaz") {
         await deleteOrderFromSale(req.body.customerID, req.body.productQuantity, req.body.avans);
+        await subtrackFromSale({ name: req.body.order, quantity: req.body.productQuantity });
+    } else {
+        for (let i = 0; i < req.body.order.length; i++) {
+            let currOrder = req.body.order[i];
+            await subtrackFromSale({ name: currOrder.name, quantity: currOrder.quantity });
+
+            // add daromat
+            const newDaromat = {
+                name: currOrder.name,
+                quantity: currOrder.quantity,
+                date: modifiedDate,
+                overallPrice: currOrder.price
+            }
+            await addFromSale(newDaromat);
+        }
     }
-    await subtrackFromSale({ name: req.body.order, quantity: req.body.productQuantity });
+
+    const allSoldBreads = req.body.customerType === "zakaz" ? req.body.order : req.body.order.join();
+
 
     let newOrderForCustomer = null;
     let doc = await Customers.findOne({ firstName: req.body.customer.split(" ")[0], lastName: req.body.customer.split(" ")[1] });
     if (doc) {
         newOrderForCustomer = {
-            product: req.body.order,
+            product: allSoldBreads,
             productQuantity: req.body.productQuantity,
             date: modifiedDate,
             avans: req.body.avans,
@@ -81,19 +97,12 @@ exports.sellToCustomer = async (req, res) => {
         }
     } else {
         if (req.body.avans === 0 || req.body.avans < req.body.price) {
-            const nasiyaScheme = { product: req.body.order, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary" }
+            const nasiyaScheme = { product: allSoldBreads, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary" }
             await addNasiyaManually(nasiyaScheme);
         }
     }
 
-    // add daromat
-    const newDaromat = {
-        name: req.body.order,
-        quantity: req.body.productQuantity,
-        date: modifiedDate,
-        overallPrice: req.body.price
-    }
-    await addFromSale(newDaromat);
+
 
     res.send("success!");
 };

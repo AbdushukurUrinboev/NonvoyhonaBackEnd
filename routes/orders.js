@@ -37,7 +37,7 @@ exports.addOrder = async (req, res) => {
         if (req.body.orders.length === i + 1) {
             allProducts += currObject.order;
         } else {
-            allProducts += currObject.order + ", "
+            allProducts += currObject.order + ", ";
         }
         allquantity += currObject.productQuantity
         const newOrder = new Orders({ ...(currObject), date: modifiedDate, time: exactTime });
