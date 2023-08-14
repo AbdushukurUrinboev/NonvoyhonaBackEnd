@@ -46,14 +46,27 @@ const subtrackFromSale = async ({ name, quantity }) => {
 exports.sellToCustomer = async (req, res) => {
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`
-    // sample obj = {order: {name: 'Patir', quantity: 5, price: 10000}, productQuantity: 3, customer: "Abdurashid Abdullayev",date: "12/32/34", avans: 60000, price: 70000, customerType: "zakaz"}
+    // sample obj = {order: [{name: 'Patir', quantity: 5, price: 10000}], productQuantity: 3, customer: "", date: "12/32/34", avans: 60000, price: 70000, customerType: "zakaz"}
+    // sample obj = {order: [{name: 'Patir', quantity: 5, price: 10000, customerID: orderID}], customer: "", price: 70000, customerType: "zakaz"}
     // add to customer history
     // given name must be spaced between firstName and lastName
 
     // handle remove from orders collec or onSale
     if (req.body.customerType === "zakaz") {
-        await deleteOrderFromSale(req.body.customerID, req.body.productQuantity, req.body.avans);
-        await subtrackFromSale({ name: req.body.order, quantity: req.body.productQuantity });
+        for (let i = 0; i < req.body.order.length; i++) {
+            let currentOrder = req.body.order[i];
+            await deleteOrderFromSale(currentOrder.customerID, currentOrder.quantity);
+            await subtrackFromSale({ name: currentOrder.name, quantity: currentOrder.quantity });
+
+            // add daromat
+            const newDaromat = {
+                name: currentOrder.name,
+                quantity: currentOrder.quantity,
+                date: modifiedDate,
+                overallPrice: currentOrder.price
+            }
+            await addFromSale(newDaromat);
+        }
     } else {
         for (let i = 0; i < req.body.order.length; i++) {
             let currOrder = req.body.order[i];
@@ -70,7 +83,7 @@ exports.sellToCustomer = async (req, res) => {
         }
     }
 
-    const allSoldBreads = req.body.customerType === "zakaz" ? req.body.order : req.body.order.join();
+    const allSoldBreads = req.body.order.map((ord) => ord.name).join();
 
 
     let newOrderForCustomer = null;
@@ -88,17 +101,20 @@ exports.sellToCustomer = async (req, res) => {
 
     }
 
+    // nasiya
 
-    if (doc) {
-        const resultttt = await doc.save();
-        if (req.body.avans === 0 || req.body.avans < req.body.price) {
-            const nasiyaScheme = { ...newOrderForCustomer, customer: req.body.customer, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary", productID: resultttt.history[resultttt.history.length - 1]._id, userId: doc._id }
-            await addNasiyaManually(nasiyaScheme);
-        }
-    } else {
-        if (req.body.avans === 0 || req.body.avans < req.body.price) {
-            const nasiyaScheme = { product: allSoldBreads, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary" }
-            await addNasiyaManually(nasiyaScheme);
+    if (req.body.customerType !== "zakaz") {
+        if (doc) {
+            const resultttt = await doc.save();
+            if (req.body.avans === 0 || req.body.avans < req.body.price) {
+                const nasiyaScheme = { ...newOrderForCustomer, customer: req.body.customer, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary", productID: resultttt.history[resultttt.history.length - 1]._id, userId: doc._id }
+                await addNasiyaManually(nasiyaScheme);
+            }
+        } else {
+            if (req.body.avans === 0 || req.body.avans < req.body.price) {
+                const nasiyaScheme = { product: allSoldBreads, customer: req.body.customer, productQuantity: req.body.productQuantity, date: modifiedDate, avans: req.body.avans, overall: req.body.price, customerType: req.body.customerType != "zakaz" ? req.body.customerType : "temporary" }
+                await addNasiyaManually(nasiyaScheme);
+            }
         }
     }
 
