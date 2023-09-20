@@ -55,7 +55,7 @@ exports.subtractFromStorage = async (obj, qop) => {
     const result = await Storage.findOne({ productName: obj.itemName });
     if (result) {
         if (result.poductQuantity - (obj.itemQuantity * qop) < 0) {
-            return { status: 400, msg: "Yetarli maxsulot yo'q" }
+            return { status: 400, msg: `${result.productName} yetarli emas` }
         } else {
             result.poductQuantity -= (obj.itemQuantity * qop);
             const updated = await result.save();
@@ -63,7 +63,7 @@ exports.subtractFromStorage = async (obj, qop) => {
 
         }
     } else {
-        return { status: 400, msg: "Yetarli maxsulot yo'q" }
+        return { status: 400, msg: `${obj.itemName} yetarli emas` }
     }
 
 
