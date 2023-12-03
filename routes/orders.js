@@ -36,10 +36,11 @@ exports.addOrder = async (req, res) => {
         let currObject = req.body.orders[i]
         if (req.body.orders.length === i + 1) {
             allProducts += currObject.order;
+            allquantity += currObject.productQuantity
         } else {
             allProducts += currObject.order + ", ";
+            allquantity += currObject.productQuantity + ", ";
         }
-        allquantity += currObject.productQuantity
         const newOrder = new Orders({ ...(currObject), date: modifiedDate, time: exactTime });
         await newOrder.save();
     }
