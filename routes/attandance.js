@@ -42,7 +42,7 @@ exports.attandance = async (req, res) => {
         if (response && response.length > 1) {
             res.send(response);
         } else {
-            let allStaff = await Staff.find({});
+            let allStaff = await Staff.find({ group: "No" });
             allStaff = allStaff.sort((a, b) => a.group === "No" ? -1 : 1);
 
             const intitialAttendanceState = allStaff.map((staff) => {
