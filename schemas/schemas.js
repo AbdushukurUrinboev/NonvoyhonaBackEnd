@@ -135,7 +135,7 @@ const productsRequiredSchema = new Schema({
 const nasiyaSchema = new Schema({
     product: String,
     customer: String,
-    productQuantity: Number,
+    productQuantity: String,
     overall: Number,
     date: String,
     avans: Number,
