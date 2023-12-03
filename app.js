@@ -101,6 +101,7 @@ const {
 } = require("./routes/plans");
 const { access, addAccess, deleteAccess, updateAccess } = require("./routes/access");
 const { attandance, addAttandance, updateAttandance, oneAttandance } = require("./routes/attandance");
+const { dailyReport } = require("./routes/daily-report");
 const { StaffModel } = require("./schemas/schemas")
 
 
@@ -333,6 +334,7 @@ app.route('/daromat')
 app.get('/report/expenses', reportExpenses);
 app.get('/report/nasiya', reportNasiya);
 app.get('/report/daromat', reportDaromat);
+app.get('/report/work', dailyReport);
 app.get('/report/daromat/:productName', reportDaromatPerProduct);
 
 

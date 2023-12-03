@@ -241,6 +241,14 @@ const access = new Schema({
     accessables: [String]
 });
 
+const dailyReportSchema = new Schema({
+    bread: String,
+    qoplarSoni: String,
+    date: {
+        type: Date,
+        default: Date.now
+    },
+});
 
 /* middlewares*/
 
@@ -249,6 +257,7 @@ storeMax20(xamkorSchema);
 attandanceModify(attendaceSchema);
 
 const StaffModel = mongoose.model('staff', staffSchema);
+const DailyReport = mongoose.model('staff', dailyReportSchema);
 // all exports here
 
 module.exports = {
@@ -266,5 +275,6 @@ module.exports = {
     plansSchema,
     access,
     attendaceSchema,
-    StaffModel
+    StaffModel,
+    DailyReport
 }
