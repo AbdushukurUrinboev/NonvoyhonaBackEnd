@@ -5,6 +5,8 @@ const { addSail } = require("./on-sale");
 const { updateStaffHistory } = require("./staff");
 const { subtractFromStorage } = require("./storage");
 const { addFromDailyTasks } = require("./expenses");
+const { addReport } = require("./daily-report");
+
 // Model
 const Products = mongoose.model('products');
 
@@ -46,6 +48,8 @@ exports.addTask = (req, res) => {
 
         // add to expenses section for 'others and staff payment' expenses
         await addFromDailyTasks(currProduct.productName, currProduct.allExpensesPerBag + (jamiTulov / req.body.qoplarSoni), req.body.qoplarSoni, req.body.nonSoni, modifiedDate, currTimeStamp);
+
+        await addReport({ bread: nonType, qoplarSoni: req.body.qoplarSoni });
 
         res.send({ status: 200, msg: { addSail: output } });
     });
