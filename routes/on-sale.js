@@ -117,7 +117,9 @@ exports.sellToCustomer = async (req, res) => {
             }
         }
     } else {
-        await doc.save();
+        if (doc) {
+            await doc.save();
+        }
     }
 
 
