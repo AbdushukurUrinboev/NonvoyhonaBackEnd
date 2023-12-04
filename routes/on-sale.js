@@ -116,6 +116,8 @@ exports.sellToCustomer = async (req, res) => {
                 await addNasiyaManually(nasiyaScheme);
             }
         }
+    } else {
+        await doc.save();
     }
 
 
