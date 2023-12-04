@@ -257,7 +257,7 @@ storeMax20(xamkorSchema);
 attandanceModify(attendaceSchema);
 
 const StaffModel = mongoose.model('staff', staffSchema);
-const DailyReport = mongoose.model('staff', dailyReportSchema);
+const DailyReport = mongoose.model('dailyReport', dailyReportSchema);
 // all exports here
 
 module.exports = {
