@@ -334,7 +334,7 @@ app.route('/daromat')
 app.get('/report/expenses', reportExpenses);
 app.get('/report/nasiya', reportNasiya);
 app.get('/report/daromat', reportDaromat);
-app.get('/report/work', dailyReport);
+app.post('/report/work', dailyReport);
 app.get('/report/daromat/:productName', reportDaromatPerProduct);
 
 
