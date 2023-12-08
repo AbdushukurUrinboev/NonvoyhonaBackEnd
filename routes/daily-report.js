@@ -5,7 +5,7 @@ const { DailyReport } = require("./../schemas/schemas");
 // Model
 
 exports.dailyReport = async (req, res) => {
-   const { startDate, endDate } = req.body;
+   let { startDate, endDate } = req.body;
    startDate = new Date(startDate).toISOString();
    endDate = new Date(endDate).toISOString();
 
