@@ -119,7 +119,8 @@ const ordersSchema = new Schema({
     time: String,
     phone: String,
     price: Number,
-    status: String
+    status: String,
+    delivery: Boolean
 });
 
 const productExpensesSchema = new Schema({
