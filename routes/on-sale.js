@@ -5,6 +5,7 @@ const { deleteOrderFromSale } = require("./orders");
 const { onSailSchema } = require("../schemas/schemas");
 const { addNasiyaManually } = require("./nasiya");
 const { addFromSale } = require("./daromat")
+const { addHistory } = require("./users")
 // Model
 const Products = mongoose.model('products');
 const OnSail = mongoose.model('onSail', onSailSchema);
@@ -44,6 +45,9 @@ const subtrackFromSale = async ({ name, quantity }) => {
 
 
 exports.sellToCustomer = async (req, res) => {
+
+    const { sellerID } = req.body;
+
     const serverDate = new Date();
     const modifiedDate = `${serverDate.getDate()}/${serverDate.getMonth() + 1}/${serverDate.getFullYear()}`
     // sample obj = {order: [{name: 'Patir', quantity: 5, price: 10000}], productQuantity: 3, customer: "", date: "12/32/34", avans: 60000, price: 70000, customerType: "zakaz"}
@@ -83,7 +87,9 @@ exports.sellToCustomer = async (req, res) => {
         }
     }
 
+
     const allSoldBreads = req.body.order.map((ord) => ord.name).join();
+    await addHistory(sellerID, { bread: allSoldBreads, quantity: req.body.productQuantity })
 
 
     let newOrderForCustomer = null;

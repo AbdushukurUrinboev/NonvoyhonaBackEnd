@@ -100,6 +100,7 @@ const {
     onePlan
 } = require("./routes/plans");
 const { access, addAccess, deleteAccess, updateAccess } = require("./routes/access");
+const { users, addUser, deleteUser, updateUser, oneUser, loginUser } = require("./routes/users");
 const { attandance, addAttandance, updateAttandance, oneAttandance } = require("./routes/attandance");
 const { dailyReport } = require("./routes/daily-report");
 const { StaffModel } = require("./schemas/schemas")
@@ -187,12 +188,22 @@ async function main() {
     // const prodMode = `mongodb://gen_user:7nhhw7kbq9@188.225.73.40:27017/default_db?authSource=admin&directConnection=true`;
     // const devMode = 'mongodb://127.0.0.1:27017/NonvoyhonaDB';
     const dbModes = require('./db.json');
-    await mongoose.connect(dbModes.prodMode);
+    await mongoose.connect(dbModes.devMode);
 }
 
 mongoose.connection.on("open", function (ref) {
     console.log("Connected to mongo server.");
 });
+
+
+app.route('/users')
+    .get(users)
+    .post(addUser)
+    .put(updateUser)
+    .delete(deleteUser);
+
+app.get('/users/:id', oneUser);
+app.get('/users/login', loginUser);
 
 
 app.route('/access')

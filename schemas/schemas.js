@@ -24,6 +24,31 @@ const salarySchema = new Schema({
     paid: Number
 });
 
+const usersHistorySchema = new Schema({
+    bread: String,
+    quantity: Number,
+    date: {
+        type: Date,
+        default: Date.now,
+    }
+});
+const usersSchema = new Schema({
+    fullName: String,
+    login: String,
+    password: String,
+    role: String,
+    history: [usersHistorySchema]
+});
+
+usersSchema.pre('save', function (next) {
+    const currentDate = new Date();
+    this.history = this.history.filter(item => {
+        // Keep history items within the last 6 months
+        return currentDate - item.date <= 6 * 30 * 24 * 60 * 60 * 1000;
+    });
+    next();
+});
+
 const customersSchema = new Schema({
     firstName: String,
     lastName: String,
@@ -259,6 +284,7 @@ attandanceModify(attendaceSchema);
 
 const StaffModel = mongoose.model('staff', staffSchema);
 const DailyReport = mongoose.model('dailyReport', dailyReportSchema);
+const Users = mongoose.model('users', usersSchema);
 // all exports here
 
 module.exports = {
@@ -277,5 +303,6 @@ module.exports = {
     access,
     attendaceSchema,
     StaffModel,
-    DailyReport
+    DailyReport,
+    Users
 }
