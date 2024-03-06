@@ -203,7 +203,7 @@ app.route('/users')
     .delete(deleteUser);
 
 app.get('/users/:id', oneUser);
-app.get('/users/login', loginUser);
+app.post('/users/login', loginUser);
 
 
 app.route('/access')
