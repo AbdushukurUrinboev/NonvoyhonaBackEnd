@@ -1,5 +1,5 @@
 {
-    "prodMode": "mongodb+srv://db_admin:db_Admin-123@mydbs.ocseko5.mongodb.net/Nonvoyhona",
+    "prodMode": "mongodb+srv://admin:Admin-123@mydbs.Nonvoyhona.mongodb.net/",
     "devMode": "mongodb://127.0.0.1:27017/NonvoyhonaDB"
 }
 
