@@ -1,5 +1,5 @@
 {
-    "prodMode": "mongodb+srv://abdushukur:Admin-1234@mydbs.ocseko5.mongodb.net/?retryWrites=true&w=majority&appName=MyDBS",
+    "prodMode": "mongodb+srv://administrator:Admin-1234@mydbs.ocseko5.mongodb.net/?retryWrites=true&w=majority&appName=MyDBS",
     "devMode": "mongodb://127.0.0.1:27017/NonvoyhonaDB"
 }
 
