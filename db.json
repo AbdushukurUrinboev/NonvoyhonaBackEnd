@@ -1,6 +1,5 @@
 {
-    "prodMode": "mongodb+srv://<db_admin>:<db_Admin-123>@mydbs.ocseko5.mongodb.net/Nonvoyhona",
-    //"prodMode": "mongodb://gen_user:7nhhw7kbq9@188.225.73.40:27017/default_db?authSource=admin&directConnection=true",
+    "prodMode": "mongodb+srv://db_admin:db_Admin-123@mydbs.ocseko5.mongodb.net/Nonvoyhona",
     "devMode": "mongodb://127.0.0.1:27017/NonvoyhonaDB"
 }
 
